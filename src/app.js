@@ -10,6 +10,6 @@ app.get('/api', (req, res) => {
   });
 });
 
-app.listen(process.env.APP_PORT, () => {
+app.listen(process.env.APP_PORT, process.env.DB_HOST, () => {
   console.log('Server is running on PORT : ', process.env.APP_PORT);
 });

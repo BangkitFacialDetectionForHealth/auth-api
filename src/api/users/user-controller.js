@@ -1,8 +1,10 @@
-const { genSaltSync, hashSync } = require('bcrypt');
+const { genSaltSync, hashSync, compareSync } = require('bcrypt');
+const { sign } = require('jsonwebtoken');
 const {
   createUser,
   getUsers,
   getUserById,
+  getUserByEmail,
 } = require('./user-service');
 
 module.exports = {
@@ -62,6 +64,31 @@ module.exports = {
         message: 'User found',
         data: results,
       });
+    });
+  },
+  login: (req, res) => {
+    const { body } = req;
+    getUserByEmail(body.email, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          status: 'fail',
+          message: 'Internal server error',
+        });
+      }
+      if (!results) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Invalid email or password',
+        });
+      }
+
+      const result = compareSync(body.password, results.password);
+
+      if (result) {
+        results.password = undefined;
+        const jsontoken = sign({ result: results }, );
+      }
     });
   },
 };

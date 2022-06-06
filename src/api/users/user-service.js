@@ -4,7 +4,7 @@ module.exports = {
   createUser: (data, callBack) => {
     pool.query(
       `insert into tb_users(username, email, password)
-                  values(?, ?, ?)`,
+              values(?, ?, ?)`,
       [
         data.username,
         data.email,
@@ -21,7 +21,7 @@ module.exports = {
   getUsers: (callBack) => {
     pool.query(
       `select id, username, email, createdAt, updatedAt from tb_users
-                  `,
+      `,
       [],
       (error, results) => {
         if (error) {
@@ -34,13 +34,26 @@ module.exports = {
   getUserById: (id, callBack) => {
     pool.query(
       `select id, username, email, createdAt, updatedAt from tb_users
-                  where id = ?`,
+              where id = ?`,
       [id],
       (error, results) => {
         if (error) {
           return callBack(error);
         }
         return callBack(null, results[0]);
+      },
+    );
+  },
+  getUserByEmail: (email, callBack) => {
+    pool.query(
+      `select * from tb_users where email = ?
+      `,
+      [email],
+      (error, results) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
       },
     );
   },

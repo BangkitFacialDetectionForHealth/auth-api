@@ -1,16 +1,13 @@
 const express = require('express');
 const {
   createUser,
-  getUsers,
-  getUserById,
   login,
 } = require('./user-controller');
+// const { checkToken } = require('../../auth/token-validation');
 
 const router = express.Router();
 
-router.post('/', createUser);
-router.get('/', getUsers);
-router.get('/:id', getUserById);
+router.post('/register', createUser);
 router.post('/login', login);
 
 module.exports = router;

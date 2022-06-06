@@ -18,32 +18,6 @@ module.exports = {
       },
     );
   },
-  getUsers: (callBack) => {
-    pool.query(
-      `select id, username, email, createdAt, updatedAt from tb_users
-      `,
-      [],
-      (error, results) => {
-        if (error) {
-          return callBack(error);
-        }
-        return callBack(null, results);
-      },
-    );
-  },
-  getUserById: (id, callBack) => {
-    pool.query(
-      `select id, username, email, createdAt, updatedAt from tb_users
-              where id = ?`,
-      [id],
-      (error, results) => {
-        if (error) {
-          return callBack(error);
-        }
-        return callBack(null, results[0]);
-      },
-    );
-  },
   getUserByEmail: (email, callBack) => {
     pool.query(
       `select * from tb_users where email = ?

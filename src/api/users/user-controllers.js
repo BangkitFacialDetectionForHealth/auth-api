@@ -3,7 +3,7 @@ const { sign } = require('jsonwebtoken');
 const {
   createUser,
   getUserByEmail,
-} = require('./user-service');
+} = require('./user-services');
 
 module.exports = {
   createUser: (req, res) => {
@@ -21,7 +21,7 @@ module.exports = {
       }
       return res.status(201).json({
         status: 'success',
-        message: 'Database connected',
+        message: 'User created',
         data: results,
       });
     });

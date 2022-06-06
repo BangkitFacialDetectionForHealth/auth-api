@@ -20,7 +20,7 @@ module.exports = {
           message: 'Database connection error',
         });
       }
-      return res.status(200).json({
+      return res.status(201).json({
         status: 'success',
         message: 'Database connected',
         data: results,
@@ -77,7 +77,7 @@ module.exports = {
         });
       }
       if (!results) {
-        return res.status(404).json({
+        return res.status(400).json({
           status: 'fail',
           message: 'Invalid email or password',
         });
@@ -87,8 +87,19 @@ module.exports = {
 
       if (result) {
         results.password = undefined;
-        const jsontoken = sign({ result: results }, );
+        const jsontoken = sign({ result: results }, process.env.TOKEN_KEY, {
+          expiresIn: '1h',
+        });
+        return res.status(200).json({
+          status: 'success',
+          message: 'Login successfully',
+          token: jsontoken,
+        });
       }
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid email or password',
+      });
     });
   },
 };

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const {
@@ -6,7 +7,7 @@ const {
 } = require('./user-services');
 
 module.exports = {
-  createUser: (req, res) => {
+  register: (req, res) => {
     const { body } = req;
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);

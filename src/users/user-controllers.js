@@ -4,6 +4,7 @@ const { sign } = require('jsonwebtoken');
 const {
   createUser,
   getUserByEmail,
+  serveResult,
 } = require('./user-services');
 
 module.exports = {
@@ -65,35 +66,47 @@ module.exports = {
       });
     });
   },
-  detector: (req, res) => {
+  scanResult: (req, res) => {
     const { body } = req;
     const myFace = body.PhotoUrl;
 
     // Image Detection Process
     //
     // Output
-    if (myFace === 'acne-cystic') {
-      //
-    } else if (myFace === 'acne-excoriated') {
-      //
-    } else if (myFace === 'acne-open-comedo') {
-      //
-    } else if (myFace === 'acne-pustular') {
-      //
-    } else if (myFace === 'acne-scar') {
-      //
-    } else if (myFace === 'closed-comedo') {
-      //
-    } else if (myFace === 'milia') {
-      //
-    } else if (myFace === 'perioral-dermatitis') {
-      //
-    } else if (myFace === 'Rhinophyma') {
-      //
-    } else if (myFace === 'Rosacea') {
-      //
-    } else if (myFace === 'rosacea-nose') {
-      //
+    if (myFace === 'acne-cystic' || myFace === 'acne-excoriated' || myFace === 'acne-open-comedo' || myFace === 'acne-pustular' || myFace === 'acne-scar' || myFace === 'closed-comedo' || myFace === 'milia' || myFace === 'perioral-dermatitis' || myFace === 'Rhinophyma' || myFace === 'Rosacea' || myFace === 'rosacea-nose') {
+      serveResult(myFace, (error, results) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({
+            status: 'fail',
+            message: 'Internal server error',
+          });
+        }
+        if (!results) {
+          return res.status(400).json({
+            status: 'fail',
+            message: 'Invalid image/photo',
+          });
+        }
+        if (results) {
+          return res.status(200).json({
+            status: 'success',
+            message: 'Successfully detected',
+            data: {
+              results: results.map((result) => ({
+                acneName: result.acneName,
+                description: result.description,
+                treatment: result.treatment,
+                sources: result.sources,
+              })),
+            },
+          });
+        }
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Undetectable',
+        });
+      });
     }
   },
 };

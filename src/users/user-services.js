@@ -31,4 +31,17 @@ module.exports = {
       },
     );
   },
+  serveResult: (myFace, callBack) => {
+    pool.query(
+      `select * from tb_disease where acneName = ?
+      `,
+      [myFace],
+      (error, results) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      },
+    );
+  },
 };

@@ -65,4 +65,35 @@ module.exports = {
       });
     });
   },
+  detector: (req, res) => {
+    const { body } = req;
+    const myFace = body.PhotoUrl;
+
+    // Image Detection Process
+    //
+    // Output
+    if (myFace === 'acne-cystic') {
+      //
+    } else if (myFace === 'acne-excoriated') {
+      //
+    } else if (myFace === 'acne-open-comedo') {
+      //
+    } else if (myFace === 'acne-pustular') {
+      //
+    } else if (myFace === 'acne-scar') {
+      //
+    } else if (myFace === 'closed-comedo') {
+      //
+    } else if (myFace === 'milia') {
+      //
+    } else if (myFace === 'perioral-dermatitis') {
+      //
+    } else if (myFace === 'Rhinophyma') {
+      //
+    } else if (myFace === 'Rosacea') {
+      //
+    } else if (myFace === 'rosacea-nose') {
+      //
+    }
+  },
 };

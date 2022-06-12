@@ -1,10 +1,10 @@
-require('dotenv').config();
 const { genSaltSync, hashSync, compareSync } = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const {
   createUser,
   getUserByEmail,
   serveResult,
+  getProfilByEmail,
 } = require('./user-services');
 
 module.exports = {
@@ -112,5 +112,27 @@ module.exports = {
         message: 'Your face is free from acne!',
       });
     }
+  },
+  viewProfile: (req, res) => {
+    const { body } = req;
+
+    getProfilByEmail(body.email, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          status: 'fail',
+          message: 'Internal server error',
+        });
+      }
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          results: results.map((result) => ({
+            username: result.username,
+            email: result.email,
+          })),
+        },
+      });
+    });
   },
 };

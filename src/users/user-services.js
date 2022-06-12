@@ -44,10 +44,11 @@ module.exports = {
       },
     );
   },
-  NoAcneResult: (callBack) => {
+  getProfilByEmail: (email, callBack) => {
     pool.query(
-      `select * from tb_health
+      `select * from tb_users where email = ?
       `,
+      [email],
       (error, results) => {
         if (error) {
           return callBack(error);

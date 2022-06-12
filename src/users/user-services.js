@@ -44,4 +44,16 @@ module.exports = {
       },
     );
   },
+  NoAcneResult: (callBack) => {
+    pool.query(
+      `select * from tb_health
+      `,
+      (error, results) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      },
+    );
+  },
 };

@@ -70,8 +70,6 @@ module.exports = {
     const { body } = req;
     const myFace = body.PhotoUrl;
 
-    // Image Detection Process
-    //
     // Output
     if (myFace === 'acne-cystic' || myFace === 'acne-excoriated' || myFace === 'acne-open-comedo' || myFace === 'acne-pustular' || myFace === 'acne-scar' || myFace === 'closed-comedo' || myFace === 'milia' || myFace === 'perioral-dermatitis' || myFace === 'Rhinophyma' || myFace === 'Rosacea' || myFace === 'rosacea-nose') {
       serveResult(myFace, (error, results) => {
@@ -106,6 +104,12 @@ module.exports = {
           status: 'fail',
           message: 'Undetectable',
         });
+      });
+    }
+    if (myFace === 'clean') {
+      res.status(200).json({
+        status: 'success',
+        message: 'Your face is free from acne!',
       });
     }
   },
